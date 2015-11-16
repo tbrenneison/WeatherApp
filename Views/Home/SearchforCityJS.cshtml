@@ -32,7 +32,10 @@
                     $("#degreesym").removeClass("hidden");
                     $("#description").text(response.weather[0].description);
                     //funky syntax because some genius decided "3h" was an appropriate key
-                    $("#rain").text(response.rain["3h"]);
+                    if(response.rain != undefined)
+                    {
+                        $("#rain").text(response.rain["3h"]);
+                    }
                     $("#wind").text(response.wind.speed);
                     $("#cloudiness").text(response.clouds.all);
                     $("#percent").removeClass("hidden");
