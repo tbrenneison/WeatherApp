@@ -1,10 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "Search By City";
+    ViewBag.Title = "Weather or Not";
 }
 
-<h2>Search for Weather in Your City </h2>
-<h4>Type &amp; Click</h4>
+<h2>Weather or Not</h2>
+<h4>oh boy, puns are terrible</h4>
 
 <input id="city" placeholder="Enter city" value="Cleveland" />
 
@@ -24,7 +24,8 @@
             //get URL response from weather API with AJAX
             //d98070087a259a39fd584ca1bca32814 (API key)
             var cityName = $("#city").val();
-            $.get("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&APPID=d98070087a259a39fd584ca1bca32814",
+            //get request from a controller action
+            $.get("@Url.Action("GetWeather", "Home")",
                 function (response) {
                     console.log(response);
                     $("#location").text(response.name);
