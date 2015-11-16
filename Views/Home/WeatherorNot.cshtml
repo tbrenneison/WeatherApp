@@ -6,6 +6,7 @@
 <h2>Weather or Not</h2>
 <h4>oh boy, puns are terrible</h4>
 
+<!--
 <input id="city" placeholder="Enter city" value="Cleveland" />
 
 <button class="btn" style="background-color: hotpink;">Click me to get the weather!</button>
@@ -18,6 +19,30 @@
 <p><strong>Wind:</strong> <span id="wind"></span></p>
 <p><strong>Cloud Cover:</strong> <span id="cloudiness"></span><span id="percent" class="hidden">%</span></p>
 <p><em>Some fields may not be populated if no current records exist.</em></p>
+-->
+
+<div class="col-md-12">
+    <h1>Current Conditions in <span data-bind="text:name"></span></h1>
+</div>
+
+<div class="col-md-12">
+    Temperature is <span data-bind="text:main.temp"></span>&deg; F
+</div>
+
+<script>
+     var weather = Object();
+    $(document).ready(function () {
+            $.get("@Url.Action("GetWeather", "Home")", function (response) {
+                //response
+                console.log(response);
+                weather = ko.mapping.fromJS(response);  //populate the weather object
+                ko.applyBindings(weather);
+
+            });
+    });
+</script>
+
+<!--
 <script>
     $(document).ready(function () {
         $(".btn").click(function () {
@@ -50,3 +75,4 @@
     });
 
 </script>
+-->
