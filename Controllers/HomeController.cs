@@ -13,5 +13,11 @@ namespace WeatherApp.Controllers
         {
             return View();
         }
+
+        // GET: WeatherJS
+        public ActionResult WeatherJS()
+        {
+            return View();
+        }
     }
 }

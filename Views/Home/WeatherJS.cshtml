@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "WeatherJS";
+}
+
+<h2>WeatherJS</h2>
+<h4>Lass uns JavaScript machen</h4>
+
+<p id="reply"></p>
+<button class="btn" style="background-color: hotpink;">Klick mich</button>
+
+<script>
+    $(document).ready(function () {
+        $(".btn").click(function () {
+            //  alert("Yay, I work!");
+            //get URL response from weather API with AJAX
+            //d98070087a259a39fd584ca1bca32814 (API key)
+            $.get("http://api.openweathermap.org/data/2.5/weather?q=Berlin,de&lang=de&units=imperial&APPID=d98070087a259a39fd584ca1bca32814",
+                function (response) {
+                    console.log(response);
+                    $("#reply").text(response.name); 
+                });
+        });
+    });
+
+</script>
