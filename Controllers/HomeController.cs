@@ -19,5 +19,11 @@ namespace WeatherApp.Controllers
         {
             return View();
         }
+
+        // GET: SearchforCityJS
+        public ActionResult SearchforCityJS()
+        {
+            return View();
+        }
     }
 }

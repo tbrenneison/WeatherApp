@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "WeatherJS";
+}
+
+<h2>Search for Weather in Your City </h2>
+<h4>Type &amp; Click</h4>
+
+<input id="city" placeholder="Enter city" value="Cleveland" />
+
+<button class="btn" style="background-color: hotpink;">Click me to get the weather!</button>
+<hr />
+
+<p><strong>Location:</strong> <span id="location"></span></p>
+<p><strong>Current Temp:</strong>  <span id="currenttemperature"></span><span id="degreesym" class="hidden">&deg; F</span></p>
+<p><strong>Description:</strong>  <span id="description"></span></p>
+<p><strong>Rain:</strong> <span id="rain"></span></p>
+<p><strong>Wind:</strong> <span id="wind"></span></p>
+<p><strong>Cloud Cover:</strong> <span id="cloudiness"></span><span id="percent" class="hidden">%</span></p>
+<p><em>Some fields may not be populated if no current records exist.</em></p>
+<script>
+    $(document).ready(function () {
+        $(".btn").click(function () {
+            //get URL response from weather API with AJAX
+            //d98070087a259a39fd584ca1bca32814 (API key)
+            var cityName = $("#city").val();
+            $.get("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&APPID=d98070087a259a39fd584ca1bca32814",
+                function (response) {
+                    console.log(response);
+                    $("#location").text(response.name);
+                    $("#currenttemperature").text(response.main.temp);
+                    $("#degreesym").removeClass("hidden");
+                    $("#description").text(response.weather[0].description);
+                    //funky syntax because some genius decided "3h" was an appropriate key
+                    $("#rain").text(response.rain["3h"]);
+                    $("#wind").text(response.wind.speed);
+                    $("#cloudiness").text(response.clouds.all);
+                    $("#percent").removeClass("hidden");
+
+                });
+        });
+    });
+
+</script>
