@@ -4,21 +4,36 @@
 }
 
 <h2>WeatherJS</h2>
-<h4>Lass uns JavaScript machen</h4>
+<h4>Lass uns jQuery machen</h4>
 
-<p id="reply"></p>
-<button class="btn" style="background-color: hotpink;">Klick mich</button>
+<button class="btn" style="background-color: hotpink;">Klick mich, das Wetter in Berlin zu sehen </button>
+<hr />
+
+<p><strong>Lage:</strong> <span id="location"></span></p>
+<p><strong>Temperatur:</strong>  <span id="currenttemperature"></span><span id="degreesym" class="hidden">&deg; F</span></p>
+<p><strong>Beschreibung:</strong>  <span id="description"></span></p>
+<p><strong>Regeln:</strong> <span id="rain"></span></p>
+<p><strong>Luft:</strong> <span id="wind"></span></p>
+<p><strong>Bewölktheit:</strong> <span id="cloudiness"></span><span id="percent" class="hidden">%</span></p>
 
 <script>
     $(document).ready(function () {
         $(".btn").click(function () {
-            //  alert("Yay, I work!");
             //get URL response from weather API with AJAX
             //d98070087a259a39fd584ca1bca32814 (API key)
             $.get("http://api.openweathermap.org/data/2.5/weather?q=Berlin,de&lang=de&units=imperial&APPID=d98070087a259a39fd584ca1bca32814",
                 function (response) {
                     console.log(response);
-                    $("#reply").text(response.name); 
+                    $("#location").text(response.name);
+                    $("#currenttemperature").text(response.main.temp);
+                    $("#degreesym").removeClass("hidden"); 
+                    $("#description").text(response.weather[0].description);
+                    //funky syntax because some genius decided "3h" was an appropriate key 
+                    $("#rain").text(response.rain["3h"]);
+                    $("#wind").text(response.wind.speed);
+                    $("#cloudiness").text(response.clouds.all);
+                    $("#percent").removeClass("hidden");
+                    
                 });
         });
     });
