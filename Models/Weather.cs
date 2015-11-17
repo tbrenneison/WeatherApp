@@ -9,10 +9,10 @@ namespace WeatherApp.Models
 {
     public class Weather
     {
-        public Object getWeatherForecast()
+        public Object getWeatherForecast(string City)
         {
             string appid = "d98070087a259a39fd584ca1bca32814";
-            string url = "http://api.openweathermap.org/data/2.5/weather?q=Cleveland&APPID=" + appid + "&units=imperial";
+            string url = "http://api.openweathermap.org/data/2.5/weather?q=" + City + "&APPID=" + appid + "&units=imperial";
             //synchronous client.
             var client = new WebClient();
             //getting the JSON from the API as a string

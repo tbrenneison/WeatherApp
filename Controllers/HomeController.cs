@@ -32,11 +32,11 @@ namespace WeatherApp.Controllers
         {
             return View();
         }
-
-        public JsonResult GetWeather()
+     
+        public JsonResult GetWeather(string City)
         {
             Weather weather = new Weather();
-            return Json(weather.getWeatherForecast(), JsonRequestBehavior.AllowGet);
+            return Json(weather.getWeatherForecast(City), JsonRequestBehavior.AllowGet);
         }
     }
 }

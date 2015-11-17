@@ -4,13 +4,14 @@
 }
 
 <h2>Weather or Not</h2>
-<h4>oh boy, puns are terrible</h4>
+<h4>oh boy, puns are really terrible</h4>
 
-<!--
+
 <input id="city" placeholder="Enter city" value="Cleveland" />
 
 <button class="btn" style="background-color: hotpink;">Click me to get the weather!</button>
 <hr />
+
 
 <p><strong>Location:</strong> <span id="location"></span></p>
 <p><strong>Current Temp:</strong>  <span id="currenttemperature"></span><span id="degreesym" class="hidden">&deg; F</span></p>
@@ -19,60 +20,43 @@
 <p><strong>Wind:</strong> <span id="wind"></span></p>
 <p><strong>Cloud Cover:</strong> <span id="cloudiness"></span><span id="percent" class="hidden">%</span></p>
 <p><em>Some fields may not be populated if no current records exist.</em></p>
--->
 
-<div class="col-md-12">
-    <h1>Current Conditions in <span data-bind="text:name"></span></h1>
-</div>
-
-<div class="col-md-12">
-    Temperature is <span data-bind="text:main.temp"></span>&deg; F
-</div>
 
 <script>
      var weather = Object();
-    $(document).ready(function () {
-            $.get("@Url.Action("GetWeather", "Home")", function (response) {
-                //response
-                console.log(response);
-                weather = ko.mapping.fromJS(response);  //populate the weather object
-                ko.applyBindings(weather);
+     $(document).ready(function () {
+         $(".btn").click(function () {
+             var cityName = $("#city").val();
+             $.ajax({
+                 url: "@Url.Action("GetWeather", "Home")",
+                 method: "GET",
+                 data: {city: cityName},
+                 dataType: "json"
+             }).done(  function (response) {
+                 console.log(response);
+                 $("#location").text(response.name);
+                 $("#currenttemperature").text(response.main.temp);
+                 $("#degreesym").removeClass("hidden");
+                 $("#description").text(response.weather[0].description);
+                 //funky syntax because some genius decided "3h" was an appropriate key
+                 if(response.rain != undefined)
+                 {
+                     $("#rain").text(response.rain["3h"]);
+                 }
+                 if (response.wind != undefined) {
+                     $("#wind").text(response.wind.speed);
+                 }
+                 if (response.clouds != undefined) {
+                     $("#cloudiness").text(response.clouds.all);
+                 }
+                 $("#percent").removeClass("hidden");
 
-            });
+             });
+             //tried knockout.js, did not use b/c will not bind undefinied & broke errythang
+             //function (response) {
+               //  console.log(response);
+                // weather = ko.mapping.fromJS(response);  //populate the weather object
+                // ko.applyBindings(weather);         
+         });
     });
 </script>
-
-<!--
-<script>
-    $(document).ready(function () {
-        $(".btn").click(function () {
-            //get URL response from weather API with AJAX
-            //d98070087a259a39fd584ca1bca32814 (API key)
-            var cityName = $("#city").val();
-            //get request from a controller action
-            $.get("@Url.Action("GetWeather", "Home")",
-                function (response) {
-                    console.log(response);
-                    $("#location").text(response.name);
-                    $("#currenttemperature").text(response.main.temp);
-                    $("#degreesym").removeClass("hidden");
-                    $("#description").text(response.weather[0].description);
-                    //funky syntax because some genius decided "3h" was an appropriate key
-                    if(response.rain != undefined)
-                    {
-                        $("#rain").text(response.rain["3h"]);
-                    }
-                    if (response.wind != undefined) {
-                        $("#wind").text(response.wind.speed);
-                    }
-                    if (response.clouds != undefined) {
-                        $("#cloudiness").text(response.clouds.all);
-                    }
-                    $("#percent").removeClass("hidden");
-
-                });
-        });
-    });
-
-</script>
--->
