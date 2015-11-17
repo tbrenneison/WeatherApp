@@ -1,9 +1,63 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Weather or Not";
 }
 
 <h2>REALLY COOL WEATHER APP!!!11one</h2>
-<h4>for when you want to look at teh weather</h4>
+<h2>Weather or Not</h2>
+<h4>oh boy, puns are really terrible</h4>
+
+<p><i class="fa fa-hand-o-down"></i> this is where you put in where you want the weather at</p>
+<input id="city" placeholder="Enter city" value="Cleveland" />
+
+<button class="btn" style="background-color: hotpink;">Click me to get the weather!</button>
+<hr />
 
 
+<p><strong>Location:</strong> <span id="location"></span></p>
+<p><strong>Current Temp:</strong>  <span id="currenttemperature"></span><span id="degreesym" class="hidden">&deg; F</span></p>
+<p><strong>Description:</strong>  <span id="description"></span></p>
+<p><strong>Rain:</strong> <span id="rain"></span></p>
+<p><strong>Wind:</strong> <span id="wind"></span></p>
+<p><strong>Cloud Cover:</strong> <span id="cloudiness"></span><span id="percent" class="hidden">%</span></p>
+<p><em>Some fields may not be populated if no current records exist.</em></p>
+
+
+<script>
+     var weather = Object();
+     $(document).ready(function () {
+         $(".btn").click(function () {
+             var cityName = $("#city").val();
+             $.ajax({
+                 url: "@Url.Action("GetWeather", "Home")",
+                 method: "GET",
+                 data: {city: cityName},
+                 dataType: "json"
+             }).done(  function (response) {
+                 console.log(response);
+                 $("#location").text(response.name);
+                 $("#currenttemperature").text(response.main.temp);
+                 $("#degreesym").removeClass("hidden");
+                 $("#description").text(response.weather[0].description);
+                 //funky syntax because some genius decided "3h" was an appropriate key
+                 if(response.rain != undefined)
+                 {
+                     $("#rain").text(response.rain["3h"]);
+                 }
+                 if (response.wind != undefined) {
+                     $("#wind").text(response.wind.speed);
+                 }
+                 if (response.clouds != undefined) {
+                     $("#cloudiness").text(response.clouds.all);
+                 }
+                 $("#percent").removeClass("hidden");
+
+             });
+             //tried knockout.js, did not use b/c will not bind undefinied & broke errythang
+             //function (response) {
+               //  console.log(response);
+                // weather = ko.mapping.fromJS(response);  //populate the weather object
+                // ko.applyBindings(weather);
+         });
+    });
+</script>
